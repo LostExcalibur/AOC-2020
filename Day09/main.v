@@ -40,13 +40,12 @@ fn part1(data []int) {
 fn part2(data []int) {
 	// Hard coded answer from part one
 	j, k := find_sum_index(373803594, data)
-	println('$j, $k')
 	ans := arrays.max(data[j..k + 1]) or { 0 } + arrays.min(data[j..k + 1]) or { 0 }
 	println('Answer to Part Two : $ans')
 }
 
 fn main() {
-	data := util.read_ints_from_file('Day9/input.txt')
+	data := util.read_ints_from_file('Day09/input.txt')
 	part1(data)
 	part2(data)
 }

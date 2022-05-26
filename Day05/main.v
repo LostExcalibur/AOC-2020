@@ -5,18 +5,18 @@ import util
 fn calc_id(seat string) int {
 	mut min, mut max := 0, 127
 	for c in seat[..7] {
-		if c == u8(66) { // B
+		if c == `B` {
 			min = (max + min + 1) / 2
-		} else if c == u8(70) { // F
+		} else if c == `F` {
 			max = (max + min) / 2
 		}
 	}
 	row := min
 	min, max = 0, 7
 	for c in seat[7..] {
-		if c == u8(82) { // B
+		if c == `R` {
 			min = (max + min + 1) / 2
-		} else if c == u8(76) { // L
+		} else if c == `L` {
 			max = (max + min) / 2
 		}
 	}
@@ -53,7 +53,7 @@ fn part2(data []string) {
 }
 
 fn main() {
-	data := util.read_file('Day5/input.txt')
+	data := util.read_file('Day05/input.txt')
 	part1(data)
 	part2(data)
 }

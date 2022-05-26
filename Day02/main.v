@@ -33,7 +33,7 @@ fn part2(data []string) {
 }
 
 fn main() {
-	data := util.read_file('Day2/input.txt')
+	data := util.read_file('Day02/input.txt')
 	part1(data)
 	part2(data)
 }

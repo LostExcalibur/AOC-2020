@@ -7,7 +7,7 @@ fn descend(forest []string, right int, down int) int {
 	mut count := 0
 	l := forest[0].len
 	for y < forest.len {
-		if forest[y][x % l].ascii_str() == '#' {
+		if forest[y][x % l] == `#` {
 			count++
 		}
 		x += right
@@ -28,7 +28,7 @@ fn part2(data []string) {
 }
 
 fn main() {
-	data := util.read_file('Day3/input.txt')
+	data := util.read_file('Day03/input.txt')
 	part1(data)
 	part2(data)
 }

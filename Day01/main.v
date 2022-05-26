@@ -27,7 +27,7 @@ fn part2(data []int) {
 }
 
 fn main() {
-	data := util.read_ints_from_file('Day1/input.txt')
+	data := util.read_ints_from_file('Day01/input.txt')
 	part1(data)
 	part2(data)
 }
