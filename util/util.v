@@ -8,7 +8,8 @@ pub fn is_in_bounds<T>(i int, j int, array [][]T) bool {
 }
 
 pub fn neighbours<T>(x int, y int, array [][]T) []T {
-	mut neigh := []T{}
+	// Preallocating speeds up, as you can only have 8 neighbours
+	mut neigh := []T{cap: 8}
 
 	for j := -1; j <= 1; j++ {
 		for i := -1; i <= 1; i++ {
