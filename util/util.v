@@ -2,6 +2,12 @@ module util
 
 import os
 
+// No negative numbers returned
+[inline]
+pub fn mod(x int, y int) int {
+	return (x + y) % y
+}
+
 [inline]
 pub fn is_in_bounds<T>(i int, j int, array [][]T) bool {
 	return (i >= 0) && (j >= 0) && (i < array[0].len) && (j < array.len)
