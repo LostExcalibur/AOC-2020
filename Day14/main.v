@@ -2,7 +2,7 @@ module main
 
 import util
 import strconv
-import arrays
+import time
 
 enum MaskElement {
 	set
@@ -11,7 +11,7 @@ enum MaskElement {
 }
 
 fn part1(data []string) {
-	mut mem := []u64{len: 100_000, init: u64(0)}
+	mut mem := map[int]u64{}
 	mut mask := ''
 	for line in data {
 		splitted := line.split(' = ')
@@ -24,15 +24,19 @@ fn part1(data []string) {
 			mem[address] = compute_value_with_mask(value, mask)
 		}
 	}
-	sum := arrays.sum(mem) or { panic(err) }
+	mut sum := u64(0)
+	for _, value in mem {
+		sum += value
+	}
 	println('Answer to Part One : $sum')
 }
 
 fn part2(data []string) {
 	mut mem := map[u64]u64{}
 	mut mask := []MaskElement{len: 36, init: MaskElement.unchanged}
+	mut splitted := []string{}
 	for line in data {
-		splitted := line.split(' = ')
+		splitted = line.split(' = ')
 		if splitted[0] == 'mask' {
 			for i, c in splitted[1] {
 				match c {
@@ -54,38 +58,17 @@ fn part2(data []string) {
 			compute_part_2(address, mask, value, mut mem)
 		}
 	}
-	// println(mem)
-	mut sum := u64(0) // arrays.sum(mem) or { panic(err) }
+	mut sum := u64(0)
 	for _, value in mem {
 		sum += value
 	}
 	println('Answer to Part Two : $sum')
 }
 
-fn u64_to_bit_array(n u64) []bool {
-	mut result := []bool{len: 36, init: false}
-	for i in 0 .. 36 {
-		if n & (u64(1) << i) != 0 {
-			result[35 - i] = true
-		}
-	}
-	return result
-}
-
-fn bit_array_to_u64(arr []bool) u64 {
-	mut result := u64(0)
-	for i, v in arr {
-		if v {
-			result += (u64(1) << (35 - i))
-		}
-	}
-	return result
-}
-
 fn compute_value_with_mask(value u64, mask string) u64 {
-	mut arr := u64_to_bit_array(value)
-	for i in 0 .. mask.len {
-		match mask[i] {
+	mut arr := util.u64_to_bit_array(value, 36)
+	for i, bit in mask {
+		match bit {
 			`0` {
 				arr[i] = false
 			}
@@ -95,12 +78,12 @@ fn compute_value_with_mask(value u64, mask string) u64 {
 			else {}
 		}
 	}
-	return bit_array_to_u64(arr)
+	return util.bit_array_to_u64(arr)
 }
 
 fn compute_part_2(_address int, mask []MaskElement, value u64, mut mem map[u64]u64) {
 	mut addresses := []u64{}
-	mut address := u64_to_bit_array(u64(_address))
+	mut address := util.u64_to_bit_array(u64(_address), 36)
 	mut floatings := []int{}
 	for i, bit in mask {
 		match bit {
@@ -125,9 +108,9 @@ fn compute_floating_addresses(mut addresses []u64, address []bool, indices []int
 	idx := indices[0]
 
 	if indices.len == 1 {
-		addresses << bit_array_to_u64(add)
+		addresses << util.bit_array_to_u64(add)
 		add[idx] = !add[idx]
-		addresses << bit_array_to_u64(add)
+		addresses << util.bit_array_to_u64(add)
 		return
 	}
 
@@ -140,6 +123,10 @@ fn compute_floating_addresses(mut addresses []u64, address []bool, indices []int
 fn main() {
 	data := util.read_file('Day14/input.txt')
 
+	mut sw := time.new_stopwatch()
 	part1(data)
+	println('Part One took: ${sw.elapsed().milliseconds()}ms')
+	sw.restart()
 	part2(data)
+	println('Part Two took: ${sw.elapsed().milliseconds()}ms')
 }

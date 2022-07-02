@@ -2,6 +2,26 @@ module util
 
 import os
 
+pub fn u64_to_bit_array(n u64, n_bits int) []bool {
+	mut result := []bool{len: n_bits, init: false}
+	for i in 0 .. n_bits {
+		if n & (u64(1) << i) != 0 {
+			result[n_bits - 1 - i] = true
+		}
+	}
+	return result
+}
+
+pub fn bit_array_to_u64(arr []bool) u64 {
+	mut result := u64(0)
+	for i, v in arr {
+		if v {
+			result += (u64(1) << (35 - i))
+		}
+	}
+	return result
+}
+
 // No negative numbers returned
 [inline]
 pub fn mod(x int, y int) int {
