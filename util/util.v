@@ -16,7 +16,7 @@ pub fn bit_array_to_u64(arr []bool) u64 {
 	mut result := u64(0)
 	for i, v in arr {
 		if v {
-			result += (u64(1) << (35 - i))
+			result += (u64(1) << (arr.len - 1 - i))
 		}
 	}
 	return result
@@ -56,6 +56,10 @@ pub fn count_in_array<T>(value T, array []T) int {
 		}
 	}
 	return count
+}
+
+pub fn read_raw_file(path string) string {
+	return os.read_file(path) or { panic(err) }
 }
 
 pub fn read_file(path string) []string {
