@@ -1,6 +1,13 @@
 module util
 
+import arrays
 import os
+
+pub fn add_array<T>(arr []T) T {
+	return arrays.reduce(arr, fn <T>(x T, y T) T {
+		return x + y
+	}) or { T(0) }
+}
 
 pub fn u64_to_bit_array(n u64, n_bits int) []bool {
 	mut result := []bool{len: n_bits, init: false}
